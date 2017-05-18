@@ -6,18 +6,10 @@
 package EssenceClasses.Employee;
 
 import java.sql.Connection;
-import java.util.List;
 import EssenceClasses.newpackage.Employee;
-import Check.Check;
-import java.sql.ResultSet;
+import Check.InputRestriction;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.text.AbstractDocument;
@@ -28,8 +20,8 @@ import javax.swing.text.AbstractDocument;
  */
 public class NewEmployee extends javax.swing.JDialog {
 
-    Connection c;
-    Employee editEmployee;
+    private Connection c;
+    private Employee editEmployee;
 
     /**
      * Creates new form NewEmployee
@@ -55,15 +47,14 @@ public class NewEmployee extends javax.swing.JDialog {
 
         fillFields();
     }
-    public void entryEmployee(){
-        ((AbstractDocument) lastName.getDocument()).setDocumentFilter(new Check(32));
-        ((AbstractDocument) name.getDocument()).setDocumentFilter(new Check(32));
-        ((AbstractDocument) middleName.getDocument()).setDocumentFilter(new Check(32));
-        ((AbstractDocument) dateBirth.getDocument()).setDocumentFilter(new Check(10));
-        ((AbstractDocument) education.getDocument()).setDocumentFilter(new Check(32));
-        ((AbstractDocument) dateWork.getDocument()).setDocumentFilter(new Check(10));
+    private void entryEmployee(){
+        ((AbstractDocument) lastName.getDocument()).setDocumentFilter(new InputRestriction(32));
+        ((AbstractDocument) name.getDocument()).setDocumentFilter(new InputRestriction(32));
+        ((AbstractDocument) middleName.getDocument()).setDocumentFilter(new InputRestriction(32));
+        ((AbstractDocument) dateBirth.getDocument()).setDocumentFilter(new InputRestriction(10));
+        ((AbstractDocument) education.getDocument()).setDocumentFilter(new InputRestriction(32));
+        ((AbstractDocument) dateWork.getDocument()).setDocumentFilter(new InputRestriction(10));
     }
-
     private void fillFields() {
         lastName.setText(editEmployee.getLastName());
         name.setText(editEmployee.getName());
@@ -73,7 +64,7 @@ public class NewEmployee extends javax.swing.JDialog {
         dateWork.setText(editEmployee.getDateOfWork());
     }
 
-    public boolean check() {
+    private boolean check() {
         if ("".equals(lastName.getText())) {
             JOptionPane.showMessageDialog(new JFrame(), "Поле с фамилией не должно быть пустым");
             return false;

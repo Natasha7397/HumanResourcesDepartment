@@ -5,7 +5,7 @@
  */
 package EssenceClasses.Post;
 
-import Check.Check;
+import Check.InputRestriction;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -13,8 +13,6 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.text.AbstractDocument;
 import EssenceClasses.newpackage.Post;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  *
@@ -22,8 +20,8 @@ import java.util.regex.Pattern;
  */
 public class NewPost extends javax.swing.JDialog {
 
-    Connection c;
-    Post editPost;
+    private Connection c;
+    private Post editPost;
 
     /**
      * Creates new form NewPost
@@ -47,9 +45,9 @@ public class NewPost extends javax.swing.JDialog {
         editPost = s;
         fillFields();
     }
-    public void entryPost(){
-        ((AbstractDocument) name.getDocument()).setDocumentFilter(new Check(32));
-        ((AbstractDocument) salary.getDocument()).setDocumentFilter(new Check(20));
+   private void entryPost(){
+        ((AbstractDocument) name.getDocument()).setDocumentFilter(new InputRestriction(32));
+        ((AbstractDocument) salary.getDocument()).setDocumentFilter(new InputRestriction(20));
     }
             
 
@@ -58,7 +56,7 @@ public class NewPost extends javax.swing.JDialog {
         salary.setText(editPost.getSalary() + "");
     }
 
-    public boolean check() {
+    private boolean check() {
         if ("".equals(name.getText())) {
             JOptionPane.showMessageDialog(new JFrame(), "Поле с наименованием не должно быть пустым");
             return false;

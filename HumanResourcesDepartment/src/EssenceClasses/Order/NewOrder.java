@@ -12,18 +12,15 @@ import java.sql.Statement;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.text.AbstractDocument;
-import Check.Check;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
+import Check.InputRestriction;
 /**
  *
  * @author Acer
  */
 public class NewOrder extends javax.swing.JDialog {
 
-    Connection c;
-    Order editOrder;
+    private Connection c;
+    private Order editOrder;
 
     /**
      * Creates new form NewOrder
@@ -47,15 +44,15 @@ public class NewOrder extends javax.swing.JDialog {
         editOrder = s;
         fillFields();
     }
-    public void entryOrder(){
-        ((AbstractDocument) dateOrder.getDocument()).setDocumentFilter(new Check(10));
+    private  void entryOrder(){
+        ((AbstractDocument) dateOrder.getDocument()).setDocumentFilter(new InputRestriction(10));
     }
 
     private void fillFields() {
         dateOrder.setText(editOrder.getDateOrder());
     }
 
-    public boolean check() {
+    private boolean check() {
         if ("".equals(dateOrder.getText())) {
             JOptionPane.showMessageDialog(new JFrame(), "Поле с датой приказа не должно быть пустым");
             return false;

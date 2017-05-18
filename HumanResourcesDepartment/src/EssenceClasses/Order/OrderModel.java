@@ -20,23 +20,28 @@ import EssenceClasses.newpackage.Order;
  */
 public class OrderModel extends AbstractTableModel {
 
-    List<Order> list = new ArrayList<>();
-    Connection c;
+    private List<Order> order = new ArrayList<>();
+    private Connection c;
 
     public OrderModel(Connection c) throws SQLException {
         super();
         this.c = c;
-        list = selectTable(c);
-        rowsCount = list.size();
+        order = selectTable(c);
+        rowsCount = order.size();
     }
 
     public void updateData() throws SQLException {
-        list = new ArrayList();
-        list = selectTable(c);
-        rowsCount = list.size();
+        order = new ArrayList();
+        order = selectTable(c);
+        rowsCount = order.size();
     }
-    int rowsCount = 5;
-    int colCount = 1;
+    public void delete(int id) throws SQLException{
+        Statement statement = c.createStatement();
+                statement.executeUpdate("delete from \"order\" where id="
+                        + id+ ";");
+    }
+    private int rowsCount = 5;
+    private int colCount = 1;
 
     @Override
     public int getRowCount() {
@@ -52,7 +57,7 @@ public class OrderModel extends AbstractTableModel {
     public Object getValueAt(int rowIndex, int columnIndex) {
         switch (columnIndex) {
             case 0:
-                return list.get(rowIndex).getDateOrder();
+                return order.get(rowIndex).getDateOrder();
         }
         return null;
     }
@@ -66,11 +71,11 @@ public class OrderModel extends AbstractTableModel {
         return null;
     }
 
-    public Order getSelectesState(int row) {
-        return list.get(row);
+    public Order getSelectesOrder(int row) {
+        return order.get(row);
     }
 
-    public static List<Order> selectTable(Connection c) throws SQLException {
+    private  static List<Order> selectTable(Connection c) throws SQLException {
         Statement statement = c.createStatement();
         List<Order> orders = new ArrayList<>();
         ResultSet rs = statement.executeQuery("SELECT * FROM \"order\"");

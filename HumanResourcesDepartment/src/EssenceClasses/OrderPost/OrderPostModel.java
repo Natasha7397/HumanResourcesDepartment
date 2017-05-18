@@ -22,24 +22,29 @@ import EssenceClasses.newpackage.OrderPost;
  */
 public class OrderPostModel extends AbstractTableModel {
 
-    List<OrderPost> list = new ArrayList<>();
-    Connection c;
+    private List<OrderPost> orderPost = new ArrayList<>();
+    private Connection c;
 
     public OrderPostModel(Connection c) throws SQLException {
         super();
         this.c = c;
-        list = selectTable(c);
-        rowsCount = list.size();
+        orderPost = selectTable(c);
+        rowsCount = orderPost.size();
     }
 
     public void updateData() throws SQLException {
 
-        list = new ArrayList<>();
-        list = selectTable(c);
-        rowsCount = list.size();
+        orderPost = new ArrayList<>();
+        orderPost = selectTable(c);
+        rowsCount = orderPost.size();
     }
-    int rowsCount = 5;
-    int colCount = 2;
+    public void delete(int id) throws SQLException{
+        Statement statement = c.createStatement();
+                statement.executeUpdate("delete from order_post where id="
+                        + id+ ";");
+    }
+    private int rowsCount = 5;
+    private int colCount = 2;
 
     @Override
     public int getRowCount() {
@@ -59,9 +64,8 @@ public class OrderPostModel extends AbstractTableModel {
             case 0:
                 try {
                     Statement statement = c.createStatement();
-                    ResultSet rs = statement.executeQuery(
-                            "SELECT * FROM post where kod="
-                            + list.get(rowIndex).getPostKod() + ";");
+                    ResultSet rs = statement.executeQuery("SELECT * FROM post where kod="
+                            + orderPost.get(rowIndex).getPostKod() + ";");
                     rs.next();
                     s = rs.getString("name");
 
@@ -73,9 +77,8 @@ public class OrderPostModel extends AbstractTableModel {
 
                 try {
                     Statement statement = c.createStatement();
-                    ResultSet rs = statement.executeQuery(
-                            "SELECT name FROM action_order,content_order where content_order.order_action_id=action_order.id and content_order.id="
-                            + list.get(rowIndex).getContenOrderId() + ";");
+                    ResultSet rs = statement.executeQuery("SELECT name FROM action_order,content_order where content_order.order_action_id=action_order.id and content_order.id="
+                            + orderPost.get(rowIndex).getContenOrderId() + ";");
                     rs.next();
                     s = rs.getString("name");
 
@@ -100,11 +103,11 @@ public class OrderPostModel extends AbstractTableModel {
         return null;
     }
 
-    public OrderPost getSelectesItem(int row) {
-        return list.get(row);
+    public OrderPost getSelectesOrderPost(int row) {
+        return orderPost.get(row);
     }
 
-    public static List<OrderPost> selectTable(Connection c) throws SQLException {
+    private static List<OrderPost> selectTable(Connection c) throws SQLException {
         Statement statement = c.createStatement();
         List<OrderPost> orderPost = new ArrayList<>();
         ResultSet rs = statement.executeQuery("SELECT * FROM order_post");

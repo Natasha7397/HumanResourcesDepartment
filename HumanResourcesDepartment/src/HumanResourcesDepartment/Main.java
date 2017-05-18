@@ -5,26 +5,20 @@
  */
 package HumanResourcesDepartment;
 
-import Check.ColumnWidth;
+import Check.Resize;
+import EssenceClasses.ActionOrder.ActionsOrder;
+import EssenceClasses.ContentOrder.ContensOrders;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import EssenceClasses.ActionOrder.ActionsOrder;
-import EssenceClasses.ContentOrder.ContenrOrders;
-
 import EssenceClasses.Employee.Employees;
-import EssenceClasses.EmployeePost.EployeesPostst;
+import EssenceClasses.EmployeePost.EmployeePosts;
 import EssenceClasses.Order.Orders;
-import EssenceClasses.OrderPost.OrderPosts;
+import EssenceClasses.OrderPost.OrdersPosts;
 import EssenceClasses.Post.Posts;
-import java.awt.Component;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JTable;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumnModel;
 
 /**
  *
@@ -32,9 +26,9 @@ import javax.swing.table.TableColumnModel;
  */
 public class Main extends javax.swing.JFrame {
 
-    Connection connection = null;
-    Model model;
-    ColumnWidth columnWidth;
+    private Connection connection = null;
+    private Model model;
+    private Resize columnWidth;
 
     /**
      * Creates new form Main
@@ -43,7 +37,7 @@ public class Main extends javax.swing.JFrame {
         initComponents();
         NewConnect nc = new NewConnect(this, true);
         nc.setVisible(true);
-        if (nc.ready) {
+        if (nc.isReady()) {
             connection = nc.getConnection();
         }
         try {
@@ -61,7 +55,7 @@ public class Main extends javax.swing.JFrame {
         model = new Model(connection);
         jTable1.setModel(model);
         jTable1.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        columnWidth = new ColumnWidth();
+        columnWidth = new Resize();
         columnWidth.resizeColumnWidth(jTable1);
     }
 
@@ -222,8 +216,8 @@ public class Main extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
                 .addComponent(status, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -234,7 +228,7 @@ public class Main extends javax.swing.JFrame {
     private void newConnectMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newConnectMenuActionPerformed
         NewConnect nc = new NewConnect(this, true);
         nc.setVisible(true);
-        if (nc.ready) {
+        if (nc.isReady()) {
             connection = nc.getConnection();
         }
         try {
@@ -297,7 +291,7 @@ public class Main extends javax.swing.JFrame {
 
     private void action_orderMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_action_orderMenuActionPerformed
         if (connection != null) {
-            ActionsOrder nc = new ActionsOrder(this, true, connection);
+            ActionsOrder nc = new ActionsOrder (this, true, connection);
             nc.setVisible(true);
         } else {
             JOptionPane.showMessageDialog(new JFrame(), "Нет подключения");
@@ -306,7 +300,7 @@ public class Main extends javax.swing.JFrame {
 
     private void content_orderMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_content_orderMenuActionPerformed
         if (connection != null) {
-            ContenrOrders nc = new ContenrOrders(this, true, connection);
+            ContensOrders nc = new ContensOrders(this, true, connection);
             nc.setVisible(true);
         } else {
             JOptionPane.showMessageDialog(new JFrame(), "Нет подключения");
@@ -315,7 +309,7 @@ public class Main extends javax.swing.JFrame {
 
     private void employee_postMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_employee_postMenuActionPerformed
         if (connection != null) {
-            EployeesPostst nc = new EployeesPostst(this, true, connection);
+            EmployeePosts nc = new EmployeePosts(this, true, connection);
             nc.setVisible(true);
         } else {
             JOptionPane.showMessageDialog(new JFrame(), "Нет подключения");
@@ -324,12 +318,8 @@ public class Main extends javax.swing.JFrame {
 
     private void order_postMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_order_postMenuActionPerformed
         if (connection != null) {
-            try {
-                OrderPosts nc = new OrderPosts(this, true, connection);
-                nc.setVisible(true);
-            } catch (SQLException ex) {
-                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            OrdersPosts nc = new OrdersPosts(this, true, connection);
+            nc.setVisible(true);
         } else {
             JOptionPane.showMessageDialog(new JFrame(), "Нет подключения");
         }

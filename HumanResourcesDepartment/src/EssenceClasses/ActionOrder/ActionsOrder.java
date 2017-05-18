@@ -5,41 +5,28 @@
  */
 package EssenceClasses.ActionOrder;
 
-import EssenceClasses.ActionOrder.ActionOrderModel;
-
-import java.awt.Component;
+import Check.Resize;
 import java.awt.Frame;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JTable;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumnModel;
-import Check.ColumnWidth;
 
+import javax.swing.table.AbstractTableModel;
 /**
  *
  * @author Acer
  */
 public class ActionsOrder extends javax.swing.JDialog {
-
-    Connection connection;
-    ActionOrderModel model;
-    ColumnWidth columnWidth;
+    private Connection connection;
+    private ActionOrderModel model;
+    private Resize columnWidth;
 
     /**
      * Creates new form ActionsOrder
-     *
-     * @param parent
-     * @param modal
-     * @param c
      */
-    public ActionsOrder(java.awt.Frame parent, boolean modal, Connection c) {
+    public ActionsOrder(java.awt.Frame parent, boolean modal, Connection c){
         super(parent, modal);
         initComponents();
         connection = c;
@@ -51,7 +38,7 @@ public class ActionsOrder extends javax.swing.JDialog {
         }
         jTable1.setModel(model);
         jTable1.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        columnWidth = new ColumnWidth();
+        columnWidth = new Resize();
         columnWidth.resizeColumnWidth(jTable1);
     }
 
@@ -66,9 +53,7 @@ public class ActionsOrder extends javax.swing.JDialog {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        addAction = new javax.swing.JButton();
-        idetAction = new javax.swing.JButton();
-        deleteAction = new javax.swing.JButton();
+        modeEdit = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -85,24 +70,10 @@ public class ActionsOrder extends javax.swing.JDialog {
         ));
         jScrollPane1.setViewportView(jTable1);
 
-        addAction.setText("Добавить");
-        addAction.addActionListener(new java.awt.event.ActionListener() {
+        modeEdit.setText("Режим редактирования");
+        modeEdit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addActionActionPerformed(evt);
-            }
-        });
-
-        idetAction.setText("Изменить");
-        idetAction.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                idetActionActionPerformed(evt);
-            }
-        });
-
-        deleteAction.setText("Удалить");
-        deleteAction.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteActionActionPerformed(evt);
+                modeEditActionPerformed(evt);
             }
         });
 
@@ -112,25 +83,19 @@ public class ActionsOrder extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(addAction)
-                        .addGap(18, 18, 18)
-                        .addComponent(idetAction)
-                        .addGap(18, 18, 18)
-                        .addComponent(deleteAction))))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(modeEdit)
+                .addGap(112, 112, 112))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(addAction)
-                    .addComponent(idetAction)
-                    .addComponent(deleteAction))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                .addComponent(modeEdit)
                 .addContainerGap())
         );
 
@@ -138,61 +103,25 @@ public class ActionsOrder extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void addActionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActionActionPerformed
-        NewActionOrder nu = new NewActionOrder((Frame) this.getParent(), true, connection);
+    private void modeEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modeEditActionPerformed
+        EditActionsOrder nu = new EditActionsOrder((Frame) this.getParent(), true, connection);
         nu.setVisible(true);
         try {
             model.updateData();
         } catch (SQLException ex) {
-            Logger.getLogger(ActionsOrder.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EditActionsOrder.class.getName()).log(Level.SEVERE, null, ex);
         }
         ((AbstractTableModel) jTable1.getModel()).fireTableDataChanged();
-    }//GEN-LAST:event_addActionActionPerformed
-
-    private void idetActionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idetActionActionPerformed
-        if (jTable1.getSelectedRow() >= 0) {
-            NewActionOrder nu = new NewActionOrder((Frame) this.getParent(), true,
-                    connection, model.getSelectesState(jTable1.getSelectedRow()));
-            nu.setVisible(true);
-            try {
-                model.updateData();
-            } catch (SQLException ex) {
-                Logger.getLogger(ActionsOrder.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            ((AbstractTableModel) jTable1.getModel()).fireTableDataChanged();
-        }
-    }//GEN-LAST:event_idetActionActionPerformed
-
-    private void deleteActionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteActionActionPerformed
-        if (jTable1.getSelectedRow() >= 0) {
-            try {
-                Statement statement = connection.createStatement();
-                statement.executeUpdate("delete from action_order where id="
-                        + model.getSelectesState(jTable1.getSelectedRow()).getId()
-                        + ";");
-
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(new JFrame(), ex.getMessage());
-                return;
-            }
-        }
-        try {
-            model.updateData();
-        } catch (SQLException ex) {
-            Logger.getLogger(ActionsOrder.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        ((AbstractTableModel) jTable1.getModel()).fireTableDataChanged();
-    }//GEN-LAST:event_deleteActionActionPerformed
+    }//GEN-LAST:event_modeEditActionPerformed
 
     /**
      * @param args the command line arguments
      */
+  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton addAction;
-    private javax.swing.JButton deleteAction;
-    private javax.swing.JButton idetAction;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JButton modeEdit;
     // End of variables declaration//GEN-END:variables
 }

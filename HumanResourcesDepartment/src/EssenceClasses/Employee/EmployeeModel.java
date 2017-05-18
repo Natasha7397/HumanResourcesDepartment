@@ -12,8 +12,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 
 /**
@@ -22,25 +20,30 @@ import javax.swing.table.AbstractTableModel;
  */
 public class EmployeeModel extends AbstractTableModel {
 
-    List<Employee> list = new ArrayList<>();
-    Connection c;
+    private List<Employee> employee = new ArrayList<>();
+    private Connection c;
 
     public EmployeeModel(Connection c) throws SQLException {
         super();
         this.c = c;
 
-        list = selectTable(c);
-        rowsCount = list.size();
+        employee = selectTable(c);
+        rowsCount = employee.size();
     }
 
     public void updateData() throws SQLException {
 
-        list = new ArrayList<>();
-        list = selectTable(c);
-        rowsCount = list.size();
+        employee = new ArrayList<>();
+        employee = selectTable(c);
+        rowsCount = employee.size();
     }
-    int rowsCount = 5;
-    int colCount = 6;
+    public void delete(int id) throws SQLException{
+        Statement statement = c.createStatement();
+                statement.executeUpdate("delete from employee where tab_number="
+                        + id+ ";");
+    }
+    private int rowsCount = 5;
+    private int colCount = 6;
 
     @Override
     public int getRowCount() {
@@ -56,17 +59,17 @@ public class EmployeeModel extends AbstractTableModel {
     public Object getValueAt(int rowIndex, int columnIndex) {
         switch (columnIndex) {
             case 0:
-                return list.get(rowIndex).getLastName();
+                return employee.get(rowIndex).getLastName();
             case 1:
-                return list.get(rowIndex).getName();
+                return employee.get(rowIndex).getName();
             case 2:
-                return list.get(rowIndex).getMiddleName();
+                return employee.get(rowIndex).getMiddleName();
             case 3:
-                return list.get(rowIndex).getDateBirth();
+                return employee.get(rowIndex).getDateBirth();
             case 4:
-                return list.get(rowIndex).getEducation();
+                return employee.get(rowIndex).getEducation();
             case 5:
-                return list.get(rowIndex).getDateOfWork();
+                return employee.get(rowIndex).getDateOfWork();
 
         }
         return null;
@@ -92,11 +95,11 @@ public class EmployeeModel extends AbstractTableModel {
         return null;
     }
 
-    public Employee getSelectesUser(int row) {
-        return list.get(row);
+    public Employee getSelectesEmployee(int row) {
+        return employee.get(row);
     }
 
-    public static List<Employee> selectTable(Connection c) throws SQLException {
+    private static List<Employee> selectTable(Connection c) throws SQLException {
         Statement statement = c.createStatement();
         List<Employee> employees = new ArrayList<>();
         ResultSet rs = statement.executeQuery("SELECT * FROM employee");

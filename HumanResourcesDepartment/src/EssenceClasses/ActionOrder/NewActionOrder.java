@@ -5,16 +5,13 @@
  */
 package EssenceClasses.ActionOrder;
 
-import Check.Check;
+import Check.InputRestriction;
 import EssenceClasses.newpackage.ActionOrder;
-import EssenceClasses.newpackage.Post;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.text.AbstractDocument;
@@ -25,8 +22,8 @@ import javax.swing.text.AbstractDocument;
  */
 public class NewActionOrder extends javax.swing.JDialog {
 
-    Connection c;
-    ActionOrder editAction;
+    private Connection c;
+    private ActionOrder editAction;
 
     /**
      * Creates new form NewPost
@@ -45,7 +42,7 @@ public class NewActionOrder extends javax.swing.JDialog {
     }
 
     public NewActionOrder(java.awt.Frame parent, boolean modal, Connection c,
-            ActionOrder s) {
+        ActionOrder s) {
         super(parent, modal);
         initComponents();
         entryActionOrder();
@@ -54,16 +51,16 @@ public class NewActionOrder extends javax.swing.JDialog {
         editAction = s;
         fillFields();
     }
-    public void entryActionOrder(){
-        ((AbstractDocument) name.getDocument()).setDocumentFilter(new Check(32));
+    private void entryActionOrder(){
+        ((AbstractDocument) name.getDocument()).setDocumentFilter(new InputRestriction(32));
     }
 
     private void fillFields() {
         name.setText(editAction.getName());
     }
 
-    public boolean check() {
-        if (" ".equals(name.getText())) {
+    private boolean check() {
+        if ("".equals(name.getText())) {
             JOptionPane.showMessageDialog(new JFrame(), "Наименование не должно быть пустым");
             return false;
         }

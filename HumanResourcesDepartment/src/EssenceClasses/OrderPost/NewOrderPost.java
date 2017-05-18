@@ -14,12 +14,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.text.AbstractDocument;
 
 /**
  *
@@ -27,10 +24,10 @@ import javax.swing.text.AbstractDocument;
  */
 public class NewOrderPost extends javax.swing.JDialog {
 
-    Connection c;
-    OrderPost editItem;
-    List<Post> post;
-    List<ContentOrder> contentOrder;
+    private Connection c;
+    private OrderPost editItem;
+    private List<Post> post;
+    private List<ContentOrder> contentOrder;
 
     /**
      * Creates new form NewOrderPost
@@ -56,7 +53,7 @@ public class NewOrderPost extends javax.swing.JDialog {
         entryOrderPost();
         fillFields();
     }
-    public void entryOrderPost(){
+    private void entryOrderPost(){
         post = new ArrayList<>();
         contentOrder = new ArrayList<>();
 

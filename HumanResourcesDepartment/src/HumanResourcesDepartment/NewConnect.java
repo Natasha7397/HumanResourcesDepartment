@@ -17,16 +17,34 @@ import javax.swing.JOptionPane;
  */
 public class NewConnect extends javax.swing.JDialog {
 
-    Connection connection;
+    private Connection connection;
 
     public Connection getConnection() {
         return connection;
     }
-    boolean ready = false;
+    private boolean ready = false;
 
     public void setReady(boolean ready) {
         this.ready = ready;
     }
+
+    
+
+    /**
+     * Get the value of Ready
+     *
+     * @return the value of Ready
+     */
+    public boolean isReady() {
+        return ready;
+    }
+
+    /**
+     * Set the value of Ready
+     *
+     * @param Ready new value of Ready
+     */
+   
 
     /**
      * Creates new form NewConnect

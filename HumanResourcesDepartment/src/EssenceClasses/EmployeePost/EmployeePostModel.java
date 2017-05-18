@@ -22,24 +22,29 @@ import EssenceClasses.newpackage.EmployeePost;
  */
 public class EmployeePostModel extends AbstractTableModel {
 
-    List<EmployeePost> list = new ArrayList<>();
-    Connection c;
+    private List<EmployeePost> employeePost = new ArrayList<>();
+    private Connection c;
 
     public EmployeePostModel(Connection c) throws SQLException {
         super();
         this.c = c;
-        list = selectTable(c);
-        rowsCount = list.size();
+        employeePost = selectTable(c);
+        rowsCount = employeePost.size();
     }
 
     public void updateData() throws SQLException {
 
-        list = new ArrayList<>();
-        list = selectTable(c);
-        rowsCount = list.size();
+        employeePost = new ArrayList<>();
+        employeePost = selectTable(c);
+        rowsCount = employeePost.size();
     }
-    int rowsCount = 5;
-    int colCount = 2;
+    public void delete(int id) throws SQLException{
+        Statement statement = c.createStatement();
+                statement.executeUpdate("delete from employee_post where id="
+                        + id+ ";");
+    }
+    private int rowsCount = 5;
+    private int colCount = 2;
 
     @Override
     public int getRowCount() {
@@ -59,9 +64,8 @@ public class EmployeePostModel extends AbstractTableModel {
             case 0:
                 try {
                     Statement statement = c.createStatement();
-                    ResultSet rs = statement.executeQuery(
-                            "SELECT * FROM post where kod="
-                            + list.get(rowIndex).getPostKod() + ";");
+                    ResultSet rs = statement.executeQuery("SELECT * FROM post where kod="
+                            + employeePost.get(rowIndex).getPostKod() + ";");
                     rs.next();
                     s = rs.getString("name");
 
@@ -73,9 +77,8 @@ public class EmployeePostModel extends AbstractTableModel {
 
                 try {
                     Statement statement = c.createStatement();
-                    ResultSet rs = statement.executeQuery(
-                            "SELECT * FROM employee where tab_number="
-                            + list.get(rowIndex).getEmployeeTabNumber() + ";");
+                    ResultSet rs = statement.executeQuery("SELECT * FROM employee where tab_number="
+                            + employeePost.get(rowIndex).getEmployeeTabNumber() + ";");
                     rs.next();
                     s = rs.getString("last_name");
 
@@ -100,11 +103,11 @@ public class EmployeePostModel extends AbstractTableModel {
         return null;
     }
 
-    public EmployeePost getSelectesItem(int row) {
-        return list.get(row);
+    public EmployeePost getSelectesEmployeePost(int row) {
+        return employeePost.get(row);
     }
 
-    public static List<EmployeePost> selectTable(Connection c) throws SQLException {
+    private static List<EmployeePost> selectTable(Connection c) throws SQLException {
         Statement statement = c.createStatement();
         List<EmployeePost> employeePost = new ArrayList<>();
         ResultSet rs = statement.executeQuery("SELECT * FROM employee_post");

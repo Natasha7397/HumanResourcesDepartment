@@ -5,7 +5,6 @@
  */
 package EssenceClasses.newpackage;
 
-import java.util.logging.Logger;
 
 /**
  *

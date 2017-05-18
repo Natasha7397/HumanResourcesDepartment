@@ -14,12 +14,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.text.AbstractDocument;
 
 /**
  *
@@ -27,10 +24,10 @@ import javax.swing.text.AbstractDocument;
  */
 public class NewEpmloyeePost extends javax.swing.JDialog {
 
-    Connection c;
-    EmployeePost editItem;
-    List<Employee> employees;
-    List<Post> posts;
+    private Connection c;
+    private EmployeePost editItem;
+    private List<Employee> employees;
+    private List<Post> posts;
 
     /**
      * Creates new form NewQuestion
@@ -57,7 +54,7 @@ public class NewEpmloyeePost extends javax.swing.JDialog {
         editItem = u;
         fillFields();
     }
-    public void entryEmployeePost(){
+    private void entryEmployeePost(){
         employees = new ArrayList<>();
         posts = new ArrayList<>();
 

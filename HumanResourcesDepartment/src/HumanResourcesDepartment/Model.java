@@ -5,7 +5,6 @@
  */
 package HumanResourcesDepartment;
 
-import EssenceClasses.newpackage.Employee;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,8 +21,8 @@ import javax.swing.table.AbstractTableModel;
  */
 public class Model extends AbstractTableModel {
 
-    Connection c;
-    List<Orders> orders = new ArrayList<>();
+    private Connection c;
+    private List<Orders> orders = new ArrayList<>();
 
     public Model(Connection c) {
         super();
@@ -45,8 +44,8 @@ public class Model extends AbstractTableModel {
         }
         rowsCount = orders.size();
     }
-    int rowsCount = 5;
-    int colCount = 3;
+    private int rowsCount = 5;
+    private int colCount = 3;
 
     @Override
     public int getRowCount() {

@@ -12,8 +12,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 
 /**
@@ -22,14 +20,20 @@ import javax.swing.table.AbstractTableModel;
  */
 public class ActionOrderModel extends AbstractTableModel {
 
-    List<ActionOrder> actionOrder = new ArrayList<>();
-    Connection c;
+    private List<ActionOrder> actionOrder = new ArrayList<>();
+    private Connection c;
 
     public ActionOrderModel(Connection c) throws SQLException {
         super();
         this.c = c;
         actionOrder = selectTable(c);
         rowsCount = actionOrder.size();
+    }
+
+    public void delete(int id) throws SQLException {
+        Statement statement = c.createStatement();
+        statement.executeUpdate("delete from action_order where id="
+                + id + ";");
     }
 
     public void updateData() throws SQLException {
@@ -39,8 +43,8 @@ public class ActionOrderModel extends AbstractTableModel {
 
         rowsCount = actionOrder.size();
     }
-    int rowsCount = 5;
-    int colCount = 1;
+    private int rowsCount = 5;
+    private int colCount = 1;
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
@@ -62,7 +66,7 @@ public class ActionOrderModel extends AbstractTableModel {
         return null;
     }
 
-    public ActionOrder getSelectesState(int row) {
+    public ActionOrder getSelectesActionOrder(int row) {
         return actionOrder.get(row);
     }
 
@@ -76,7 +80,7 @@ public class ActionOrderModel extends AbstractTableModel {
         return colCount;
     }
 
-    public static List<ActionOrder> selectTable(Connection c) throws SQLException {
+    private static List<ActionOrder> selectTable(Connection c) throws SQLException {
         Statement statement = c.createStatement();
         List<ActionOrder> actions = new ArrayList<>();
         ResultSet rs = statement.executeQuery("SELECT * FROM action_order");

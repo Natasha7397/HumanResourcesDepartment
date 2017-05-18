@@ -11,8 +11,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 import EssenceClasses.newpackage.Post;
 
@@ -22,32 +20,37 @@ import EssenceClasses.newpackage.Post;
  */
 public class PostModel extends AbstractTableModel {
 
-    List<Post> list = new ArrayList<>();
-    Connection c;
+    private List<Post> post = new ArrayList<>();
+    private Connection c;
 
     public PostModel(Connection c) throws SQLException {
         super();
         this.c = c;
-        list = selectTable(c);
-        rowsCount = list.size();
+        post = selectTable(c);
+        rowsCount = post.size();
     }
 
     public void updateData() throws SQLException {
-        list = new ArrayList<>();
-        list = selectTable(c);
+        post = new ArrayList<>();
+        post = selectTable(c);
 
-        rowsCount = list.size();
+        rowsCount = post.size();
     }
-    int rowsCount = 5;
-    int colCount = 2;
+    public void delete(int id) throws SQLException{
+        Statement statement = c.createStatement();
+                statement.executeUpdate("delete from post where kod="
+                        + id+ ";");
+    }
+    private int rowsCount = 5;
+    private int colCount = 2;
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         switch (columnIndex) {
             case 0:
-                return list.get(rowIndex).getName();
+                return post.get(rowIndex).getName();
             case 1:
-                return list.get(rowIndex).getSalary();
+                return post.get(rowIndex).getSalary();
         }
         return null;
     }
@@ -63,8 +66,8 @@ public class PostModel extends AbstractTableModel {
         return null;
     }
 
-    public Post getSelectesState(int row) {
-        return list.get(row);
+    public Post getSelectesPost(int row) {
+        return post.get(row);
     }
 
     @Override
@@ -77,7 +80,7 @@ public class PostModel extends AbstractTableModel {
         return colCount;
     }
 
-    public static List<Post> selectTable(Connection c) throws SQLException {
+    private static List<Post> selectTable(Connection c) throws SQLException {
         Statement statement = c.createStatement();
         List<Post> posts = new ArrayList<>();
         ResultSet rs = statement.executeQuery("SELECT * FROM post");

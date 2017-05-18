@@ -22,8 +22,8 @@ import EssenceClasses.newpackage.ContentOrder;
  */
 public class ContentOrderModel extends AbstractTableModel {
 
-    List<ContentOrder> contentOrder = new ArrayList<>();
-    Connection c;
+    private List<ContentOrder> contentOrder = new ArrayList<>();
+    private Connection c;
 
     public ContentOrderModel(Connection c) throws SQLException {
         super();
@@ -37,8 +37,13 @@ public class ContentOrderModel extends AbstractTableModel {
         contentOrder = selectTable(c);
         rowsCount = contentOrder.size();
     }
-    int rowsCount = 10;
-    int colCount = 3;
+    public void delete(int id) throws SQLException{
+        Statement statement = c.createStatement();
+                statement.executeUpdate("delete from content_order where id="
+                        + id+ ";");
+    }
+    private int rowsCount = 10;
+    private int colCount = 3;
 
     @Override
     public int getRowCount() {
@@ -109,11 +114,11 @@ public class ContentOrderModel extends AbstractTableModel {
         return null;
     }
 
-    public ContentOrder getSelectesItem(int row) {
+    public ContentOrder getSelectesContentOrder(int row) {
         return contentOrder.get(row);
     }
 
-    public static List<ContentOrder> selectTable(Connection c) throws SQLException {
+    private static List<ContentOrder> selectTable(Connection c) throws SQLException {
         Statement statement = c.createStatement();
         List<ContentOrder> contens = new ArrayList<>();
         ResultSet rs = statement.executeQuery("select co.*, ao.name as action_order_name from content_order co left join action_order ao on co.order_action_id=ao.id;");
